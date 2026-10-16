@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="description" content="ECU Pro Web - Motorcycle ECU Tuning Tool" />
+  <link rel="manifest" href="manifest.json" />
+  <title>ECU Pro Web</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Top Header -->
+    <header class="header">
+      <div class="header-left">
+        <button id="btnMenu" class="icon-btn" aria-label="Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        <h1 class="app-title">ECU Pro <span class="version">9.1X</span></h1>
+      </div>
+      <div class="header-right">
+        <button id="btnLang" class="icon-btn lang-btn" title="Language">
+          <span id="langLabel">VI</span>
+        </button>
+        <button id="btnConnect" class="btn-connect">
+          <i class="fas fa-plug"></i>
+          <span data-i18n="connect">Kết nối</span>
+        </button>
+      </div>
+    </header>
+
+
+    <!-- Mode Selector + Data Actions -->
+    <div class="mode-bar" id="modeBar">
+      <div class="mode-tabs">
+        <span class="mode-label" data-i18n="mode">Chế độ</span>
+        <button class="mode-btn active" data-mode="0">No.1</button>
+        <button class="mode-btn" data-mode="1">No.2</button>
+        <button class="mode-btn" data-mode="2">No.3</button>
+        <button class="mode-btn" data-mode="3">No.4</button>
+      </div>
+      <div class="data-actions">
+        <button class="data-btn" id="btnReadCur" title="Read current"><i class="fas fa-download"></i></button>
+        <button class="data-btn" id="btnWriteCur" title="Send current"><i class="fas fa-upload"></i></button>
+        <button class="data-btn" id="btnReadAll" title="Read all"><i class="fas fa-cloud-download-alt"></i></button>
+        <button class="data-btn" id="btnWriteAll" title="Send all"><i class="fas fa-cloud-upload-alt"></i></button>
+        <button class="data-btn" id="btnSaveFile" title="Save"><i class="fas fa-save"></i></button>
+        <button class="data-btn" id="btnOpenFile" title="Open"><i class="fas fa-folder-open"></i></button>
+        <button class="data-btn danger" id="btnFactory" title="Factory reset"><i class="fas fa-trash-restore"></i></button>
+        <input type="file" id="fileInput" accept=".json" hidden />
+      </div>
+    </div>
+
+    <!-- Connection Status Bar -->
+    <div id="statusBar" class="status-bar offline">
+      <span id="statusText" data-i18n="status_offline">Chưa kết nối thiết bị</span>
+    </div>
+
+    <!-- Main Content -->
+    <main id="mainContent" class="main-content">
+      <!-- Sidebar -->
+      <nav id="sidebar" class="sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-title" data-i18n="dashboard">Dashboard</div>
+          <button class="nav-item active" data-page="dashboard">
+            <i class="fas fa-tachometer-alt"></i>
+            <span data-i18n="dashboard">Dashboard</span>
+          </button>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title" data-i18n="maps">Bản đồ</div>
+          <button class="nav-item" data-page="inj-ve">
+            <i class="fas fa-tint"></i>
+            <span data-i18n="inj_ve">INJ VE</span>
+          </button>
+          <button class="nav-item" data-page="inj-degree">
+            <i class="fas fa-angle-double-right"></i>
+            <span data-i18n="inj_degree">INJ Degree</span>
+          </button>
+          <button class="nav-item" data-page="ign-degree">
+            <i class="fas fa-bolt"></i>
+            <span data-i18n="ign_degree">IGN Degree</span>
+          </button>
+          <button class="nav-item" data-page="ign-time">
+            <i class="fas fa-clock"></i>
+            <span data-i18n="ign_time">IGN Time</span>
+          </button>
+          <button class="nav-item" data-page="afr">
+            <i class="fas fa-fire"></i>
+            <span data-i18n="afr">Air Fuel Ratio</span>
+          </button>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title" data-i18n="compensation">Bù trừ</div>
+          <button class="nav-item" data-page="ect-comp-inj">
+            <i class="fas fa-thermometer-half"></i>
+            <span data-i18n="ect_comp_inj">ECT Comp INJ</span>
+          </button>
+          <button class="nav-item" data-page="ect-comp-ign">
+            <i class="fas fa-thermometer-half"></i>
+            <span data-i18n="ect_comp_ign">ECT Comp IGN</span>
+          </button>
+          <button class="nav-item" data-page="map-comp-inj">
+            <i class="fas fa-wind"></i>
+            <span data-i18n="map_comp_inj">MAP Comp INJ</span>
+          </button>
+          <button class="nav-item" data-page="iat-comp-inj">
+            <i class="fas fa-cloud-sun"></i>
+            <span data-i18n="iat_comp_inj">IAT Comp INJ</span>
+          </button>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title" data-i18n="settings">Cài đặt</div>
+          <button class="nav-item" data-page="idle-limit">
+            <i class="fas fa-gauge-high"></i>
+            <span data-i18n="idle_limit">Idle & Limit</span>
+          </button>
+          <button class="nav-item" data-page="options">
+            <i class="fas fa-sliders-h"></i>
+            <span data-i18n="options">Options</span>
+          </button>
+          <button class="nav-item" data-page="sensor-voltage">
+            <i class="fas fa-battery-half"></i>
+            <span data-i18n="sensor_voltage">Sensor Voltage</span>
+          </button>
+          <button class="nav-item" data-page="set-info">
+            <i class="fas fa-info-circle"></i>
+            <span data-i18n="set_info">Set & Info</span>
+          </button>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title" data-i18n="tools">Công cụ</div>
+          <button class="nav-item" data-page="learn-tps">
+            <i class="fas fa-graduation-cap"></i>
+            <span data-i18n="learn_tps">Learn Throttle</span>
+          </button>
+        </div>
+      </nav>
+
+      <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+      <div id="pageContainer" class="page-container"></div>
+    </main>
+
+    <!-- Bottom Toolbar -->
+    <footer class="toolbar" id="mainToolbar">
+      <div class="toolbar-group">
+        <button class="tool-btn" id="btnPlus1" title="+1">
+          <i class="fas fa-plus"></i><span>1</span>
+        </button>
+        <button class="tool-btn" id="btnMinus1" title="-1">
+          <i class="fas fa-minus"></i><span>1</span>
+        </button>
+        <button class="tool-btn" id="btnPlus01" title="+0.1">
+          <i class="fas fa-plus"></i><span>0.1</span>
+        </button>
+        <button class="tool-btn" id="btnMinus01" title="-0.1">
+          <i class="fas fa-minus"></i><span>0.1</span>
+        </button>
+      </div>
+      <div class="toolbar-group">
+        <button class="tool-btn primary" id="btnSmooth" data-i18n-title="smooth">
+          <i class="fas fa-wave-square"></i>
+        </button>
+        <button class="tool-btn" id="btnCopy" data-i18n-title="copy">
+          <i class="fas fa-copy"></i>
+        </button>
+        <button class="tool-btn" id="btnReset" data-i18n-title="reset">
+          <i class="fas fa-undo"></i>
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/map-table.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
